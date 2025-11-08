@@ -1,16 +1,33 @@
+import path from "path";
 import express, { Request, Response } from "express";
 import cors from "cors";
+import { Connection } from "./config/configDB";
+import wpRouter from "./routes/wp.route";
+import authRouter from "./auth/routes/auth.route";
 
+require("dotenv").config({ path: path.join(__dirname, "../env/.env") });
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/wp", wpRouter);
+app.use("/api/auth", authRouter);
+
 app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Servidor funcionando con Express + TypeScript 🚀" });
+  res.json( "Servidor funcionando");
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Servidor escuchando en http://localhost:${PORT}`);
-});
+async function start() {
+  try {
+    await Connection();
+    app.listen(PORT, () => {
+      console.log(`Servidor escuchando en el puerto ${PORT}`);
+    });
+  } catch (err) {
+    process.exit(1);
+  }
+}
+
+start();
