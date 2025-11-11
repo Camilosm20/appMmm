@@ -7,7 +7,7 @@ import authRouter from "./auth/routes/auth.route";
 
 require("dotenv").config({ path: path.join(__dirname, "../env/.env") });
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +26,7 @@ async function start() {
       console.log(`Servidor escuchando en el puerto ${PORT}`);
     });
   } catch (err) {
+    console.error("❌ Error al iniciar el servidor:", err);
     process.exit(1);
   }
 }
