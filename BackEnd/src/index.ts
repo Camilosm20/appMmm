@@ -9,7 +9,9 @@ require("dotenv").config({ path: path.join(__dirname, "../env/.env") });
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // puerto del frontend
+}));
 app.use(express.json());
 
 app.use("/api/wp", wpRouter);

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 
 
-dotenv.config({ path: path.join("./env/.env") });
+dotenv.config({ path: path.join(__dirname, "../env/.env") });
 
 const {
   DB_HOST = "",

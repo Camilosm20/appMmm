@@ -22,3 +22,28 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vite / React build artifacts and caches
+dist
+dist-ssr
+.vite
+build/
+
+# Node and package manager
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Common compiled JS files to ignore (like react_jsx.js, react-dom.js)
+react*.js
+react-*.js
+react_dom*.js
+react-dom*.js
+react-router*.js
+react-router-dom*.js
+
+# Optional: ignore environment files
+.env
+.env.local
+.env.*.local
