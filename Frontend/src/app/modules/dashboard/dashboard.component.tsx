@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { IDashboard } from "../../Core/dashboard/domain/interface";
-import DashboardUseCase from "../../Core/dashboard/application/useCase";
-import { DashboardGatewayImpl } from "../../Core/dashboard/infrastructure/gateway-impl";
+import { IDashboard } from "../../../Core/dashboard/domain/interface";
+import { DashboardGatewayImpl } from "../../../Core/dashboard/infrastructure/gateway-impl";
+import { DashboardUseCase } from "../../../Core/dashboard/application/useCase";
 
 export default function Dashboard() {
   const [client, setClient] = useState<IDashboard.getAll[]>([]);
