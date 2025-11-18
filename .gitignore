@@ -1,25 +1,30 @@
-.DS_Store
-Thumbs.db
-# Node
-node_modules/
-**/node_modules/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Build outputs
-dist/
+# Vite / React build artifacts and caches
+dist
+dist-ssr
+.vite
 build/
 
-# Env
+# Node and package manager
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Common compiled JS files to ignore (like react_jsx.js, react-dom.js)
+react*.js
+react-*.js
+react_dom*.js
+react-dom*.js
+react-router*.js
+react-router-dom*.js
+
+# Optional: ignore environment files
 .env
-.env.*
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Editors
-.vscode/
-.idea/
-
-# OS generated files
-desktop.ini
+.env.local
+.env.*.local

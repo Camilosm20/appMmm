@@ -1,5 +1,5 @@
 import { Route, Router, Routes } from 'react-router-dom';
-import Dashboard from '../modules/dashboard/dashboard.component';
+import Dashboard from '../app/modules/dashboard/dashboard.component';
 
 export default function AppRoutes() {
   return (
