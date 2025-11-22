@@ -42,4 +42,57 @@ class JwtService
 
         return $headerEncoded . '.' . $payloadEncoded . '.' . $signatureEncoded;
     }
+
+    /**
+     * Verify and decode a JWT. Returns payload array if valid, otherwise throws \Exception.
+     *
+     * @param string $jwt
+     * @return array
+     * @throws \Exception
+     */
+    public function verify(string $jwt): array
+    {
+        $parts = explode('.', $jwt);
+        if (count($parts) !== 3) {
+            throw new \Exception('Invalid token format');
+        }
+
+        [$headerEncoded, $payloadEncoded, $sigEncoded] = $parts;
+
+        $payloadJson = $this->base64UrlDecode($payloadEncoded);
+        if ($payloadJson === false) {
+            throw new \Exception('Invalid payload encoding');
+        }
+
+        $payload = json_decode($payloadJson, true);
+        if (! is_array($payload)) {
+            throw new \Exception('Invalid payload');
+        }
+
+        // verify signature
+        $expectedSig = hash_hmac('sha256', $headerEncoded . '.' . $payloadEncoded, $this->secret, true);
+        $expectedSigEnc = $this->base64UrlEncode($expectedSig);
+
+        if (! hash_equals($expectedSigEnc, $sigEncoded)) {
+            throw new \Exception('Invalid token signature');
+        }
+
+        // verify expiration
+        if (isset($payload['exp']) && time() > (int) $payload['exp']) {
+            throw new \Exception('Token expired');
+        }
+
+        return $payload;
+    }
+
+    protected function base64UrlDecode(string $data): string|false
+    {
+        $remainder = strlen($data) % 4;
+        if ($remainder) {
+            $data .= str_repeat('=', 4 - $remainder);
+        }
+
+        $decoded = base64_decode(strtr($data, '-_', '+/'));
+        return $decoded === false ? false : $decoded;
+    }
 }

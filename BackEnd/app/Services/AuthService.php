@@ -14,17 +14,8 @@ class AuthService
     {
         $this->jwt = $jwt;
     }
-
-    /**
-     * Handle login or registration-on-first-login.
-     * If user exists, validate password. If not, create user (password will be hashed by model cast).
-     * Returns an array with `user`, `token` and `new` flag.
-     *
-     * @param array $data
-     * @return array
-     * @throws \Exception
-     */
-    public function login(array $data): array
+    
+    public function login(array $data): string
     {
         $email = $data['email'];
         $password = $data['password'];
@@ -32,30 +23,14 @@ class AuthService
 
         $user = User::where('email', $email)->first();
 
-        if ($user) {
-            if (Hash::check($password, $user->password)) {
-                $token = $this->jwt->generate([
-                    'username' => $user->username,
-                    'email' => $user->email,
-                ]);
+        if ($user && Hash::check($password, $user->password)) {
+            $token = $this->jwt->generate([
+                'username' => $user->username,
+                'email' => $user->email,
+            ]);
 
-                return ['user' => $user, 'token' => $token, 'new' => false];
-            }
-
-            throw new \Exception('Credenciales inválidas.');
+            return $token;
         }
-
-        $user = User::create([
-            'username' => $username ?? $email,
-            'email' => $email,
-            'password' => $password,
-        ]);
-
-        $token = $this->jwt->generate([
-            'username' => $user->username,
-            'email' => $user->email,
-        ]);
-
-        return ['user' => $user, 'token' => $token, 'new' => true];
+        throw new \Exception('Credenciales inválidas.');
     }
 }

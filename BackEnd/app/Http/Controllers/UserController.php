@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use App\Commons\ApiResponse;
 
 class UserController extends Controller
 {
@@ -14,9 +15,6 @@ class UserController extends Controller
 		$this->authService = $authService;
 	}
 
-	/**
-	 * Login or register-on-first-login endpoint.
-	 */
 	public function login(Request $request)
 	{
 		$data = $request->validate([
@@ -26,19 +24,10 @@ class UserController extends Controller
 		]);
 
 		try {
-			$result = $this->authService->login($data);
-
-			return response()->json([
-				'success' => true,
-				'token' => $result['token'],
-				'user' => $result['user'],
-				'created' => $result['new'] ?? false,
-			], 200);
+			$token = $this->authService->login($data);
+			return ApiResponse::success($token)->toJsonResponse();
 		} catch (\Exception $e) {
-			return response()->json([
-				'success' => false,
-				'message' => $e->getMessage(),
-			], 401);
+			return ApiResponse::unauthorized($e->getMessage())->toJsonResponse();
 		}
 	}
 }
