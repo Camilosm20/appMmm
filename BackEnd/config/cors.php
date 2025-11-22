@@ -1,5 +1,4 @@
 <?php
-
 return [
 
     /*
@@ -16,9 +15,7 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
-
-    // Use env to allow specific origins in different environments
-    'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS', 'http://127.0.0.1:8000')),
+    'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS')),
 
     'allowed_origins_patterns' => [],
 
@@ -28,6 +25,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => env('CORS_SUPPORTS_CREDENTIALS', false),
+    'supports_credentials' => env('CORS_SUPPORTS_CREDENTIALS'),
 
 ];

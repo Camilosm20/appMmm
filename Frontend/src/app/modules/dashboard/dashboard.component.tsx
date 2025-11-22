@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IDashboard } from "../../../Core/dashboard/domain/interface";
 import { DashboardGatewayImpl } from "../../../Core/dashboard/infrastructure/gateway-impl";
 import { DashboardUseCase } from "../../../Core/dashboard/application/useCase";
+import { IGeneric } from "../../../Core/Commons/IGeneric";
 
 export default function Dashboard() {
   const [client, setClient] = useState<IDashboard.getAll[]>([]);
@@ -17,8 +18,8 @@ export default function Dashboard() {
 
   const fetchClient = async () => {
     try {
-      const data = await useCase.getAll();
-      setClient(data);
+      const response: IGeneric.Response<IGeneric.Paginator<IDashboard.getAll[]>> = await useCase.getAll();
+      setClient(response?.data?.items ?? []);
     } catch (error) {
       const msg = (error as any)?.message ?? String(error);
       setError(msg);

@@ -1,12 +1,13 @@
-import axios from "axios";
+import { IGeneric } from "../../Commons/IGeneric";
+import api from "../../http/http.service";
 import { DashboardGateway } from "../domain/gateway";
 import { IDashboard } from "../domain/interface";
 
-const apiGetWp = "http://localhost:4000/api/wp/getAll";
+const apiGetWp = "/getLauch2025";
 
 export class DashboardGatewayImpl implements DashboardGateway {
-  async getAll(): Promise<IDashboard.getAll[]> {
-    const response = await axios.get(apiGetWp);
-    return [...(response.data?.data || [])];
+  async getAll(): Promise<IGeneric.Response<IGeneric.Paginator<IDashboard.getAll[]>>> {
+    const response = await api.get(apiGetWp);
+    return response?.data;
   }
 }

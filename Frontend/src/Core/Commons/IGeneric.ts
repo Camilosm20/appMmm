@@ -5,4 +5,12 @@ export namespace IGeneric {
     data?: T;
     error?: string;
   }
+
+  export interface Paginator<T> {
+    pageSize: number;
+    pageNumber: number;
+    items: T;
+    totalPages: number;
+    totalItems: number;
+  }
 }

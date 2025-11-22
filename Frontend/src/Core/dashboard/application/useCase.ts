@@ -1,3 +1,4 @@
+import { IGeneric } from "../../Commons/IGeneric";
 import { DashboardGateway } from "../domain/gateway";
 import { IDashboard } from "../domain/interface";
 
@@ -8,7 +9,7 @@ export class DashboardUseCase {
     this.dashboardGateway = dashboardGateway;
   }
 
-  async getAll(): Promise<IDashboard.getAll[]> {
+  async getAll(): Promise<IGeneric.Response<IGeneric.Paginator<IDashboard.getAll[]>>> {
     return this.dashboardGateway.getAll();
   }
 }

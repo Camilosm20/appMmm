@@ -8,8 +8,10 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // Use a project-relative POSIX path so Sass can resolve it in Vite
-        additionalData: '@use "src/scss/_variables.scss" as *;'
+        // Ensure Sass can find project SCSS files by adding src to includePaths
+        // and use a shorter import for the injected variables file.
+        additionalData: '@use "scss/_variables" as *;',
+        includePaths: [path.resolve(__dirname, 'src')]
       }
     }
   },
